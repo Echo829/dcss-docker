@@ -11,8 +11,11 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 #Update system and install prerequisite packages.
+RUN yum -y install epel-release
 RUN yum -y update
-RUN yum -y install git gcc gcc-c++ make bison flex ncurses-devel compat-lua-devel sqlite-devel zlib-devel pkgconfig SDL-devel SDL_image-devel libpng-devel freetype-devel dejavu-sans-fonts dejavu-sans-mono-fonts python-tornado
+RUN yum -y install git gcc gcc-c++ make bison flex ncurses-devel compat-lua-devel sqlite-devel zlib-devel pkgconfig SDL-devel SDL_image-devel libpng-devel freetype-devel dejavu-sans-fonts dejavu-sans-mono-fonts python-pip
+RUN pip install --upgrade pip
+RUN pip install tornado==3.2
 
 #Pull latest build from github.
 RUN git clone https://github.com/crawl/crawl.git
