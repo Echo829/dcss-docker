@@ -1,4 +1,4 @@
-FROM centos:latest
+FROM ubuntu:latest
 
 #Set labels.
 LABEL maintainer="Anthony Lubrani"
@@ -6,16 +6,11 @@ LABEL maintainer.email="twilightwars2005@gmail.com"
 
 #Set environment values and variables.
 ARG version
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
 
 #Update system and install prerequisite packages.
-RUN yum -y install epel-release
-RUN yum -y update
-RUN yum -y install git gcc gcc-c++ make bison flex ncurses-devel compat-lua-devel sqlite-devel zlib-devel pkgconfig SDL-devel SDL_image-devel libpng-devel freetype-devel dejavu-sans-fonts dejavu-sans-mono-fonts python-pip
-RUN pip install --upgrade pip
-RUN pip install tornado==3.2
+RUN apt -y update
+RUN apt-get -y upgrade
+RUN apt-get -y install make build-essential libsdl2-image-dev libsdl2-mixer-dev libsdl2-dev libfreetype6-dev libpng-dev fonts-dejavu-core advancecomp pngcrush git python3 python3-tornado yamllint
 
 #Pull latest build from github.
 RUN git clone https://github.com/crawl/crawl.git
@@ -35,6 +30,9 @@ RUN sed -i -re "s/ (trun)+\w+/ $version/g" /crawl/crawl-ref/source/webserver/con
 EXPOSE 8080
 EXPOSE 8081
 
+#Create user db.
+RUN touch /crawl/crawl-ref/source/webserver/passwd.db3 ; chown 1000 /crawl/crawl-ref/source/webserver/passwd.db3 ; chmod 755 /crawl/crawl-ref/source/webserver/passwd.db3
+
 #Run the server.
 WORKDIR /crawl/crawl-ref/source
-CMD ["/usr/bin/python", "webserver/server.py"]
+CMD ["/usr/bin/python3", "webserver/server.py"]
