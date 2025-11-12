@@ -9,7 +9,6 @@ ARG version
 
 #Update system and install prerequisite packages.
 RUN apt -y update
-RUN apt-get -y upgrade
 RUN apt-get -y install make build-essential libsdl2-image-dev libsdl2-mixer-dev libsdl2-dev libfreetype6-dev libpng-dev fonts-dejavu-core advancecomp pngcrush git python3 python3-tornado yamllint
 
 #Pull latest build from github.
