@@ -5,7 +5,7 @@ LABEL maintainer="Anthony Lubrani"
 LABEL maintainer.email="twilightwars2005@gmail.com"
 
 #Set environment values and variables.
-ARG version
+ARG VERSION
 
 #Update system and install prerequisite packages.
 RUN apt -y update
@@ -13,7 +13,7 @@ RUN apt-get -y install make build-essential libsdl2-image-dev libsdl2-mixer-dev 
 
 #Pull latest build from github.
 RUN git clone https://github.com/crawl/crawl.git
-RUN cd /crawl/ ; git submodule update --init ; git checkout tags/$version
+RUN cd /crawl/ ; git submodule update --init ; git checkout tags/${VERSION}
 
 #Compile the webserver with webtiles and dgamelaunch support.
 RUN cd /crawl/crawl-ref/source/ ; make WEBTILES=y USE_DGAMELAUNCH=y
@@ -23,15 +23,9 @@ RUN mkdir /crawl/crawl-ref/source/rcs
 RUN groupadd -g 1001 crawl && useradd -m -u 1001 -g crawl crawl
 RUN chown -R 1001:1001 /crawl/ ; sed -i -re 's/([g,u]id =)[^=]*$/\1 1001/' /crawl/crawl-ref/source/webserver/config.py
 
-#Replace name values on the launcher with the currently built version.
-RUN sed -i -re "s/ (trun)+\w+/ $version/g" /crawl/crawl-ref/source/webserver/config.py
-
 #Expose port 8080.
 EXPOSE 8080
-EXPOSE 8081
-
-#Create user db.
-RUN touch /crawl/crawl-ref/source/webserver/passwd.db3 ; chown 1001:1001 /crawl/crawl-ref/source/webserver/passwd.db3 ; chmod 755 /crawl/crawl-ref/source/webserver/passwd.db3
+EXPOSE 8443
 
 #Run the server.
 USER 1001:1001
