@@ -22,6 +22,7 @@ RUN mkdir /crawl/crawl-ref/source/rcs
 #Create user and set the config to use it.
 RUN groupadd -g 1001 crawl && useradd -m -u 1001 -g crawl crawl
 RUN chown -R 1001:1001 /crawl/ ; sed -i -re 's/([g,u]id =)[^=]*$/\1 1001/' /crawl/crawl-ref/source/webserver/config.py
+RUN sed -i -re "s/(trunk)/${VERSION}/gm;t" /crawl/crawl-ref/source/webserver/games.d/base.yaml
 
 #Expose port 8080.
 EXPOSE 8080

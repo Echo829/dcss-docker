@@ -378,12 +378,12 @@ lobby_url = None
 # Ideally, test out these settings carefully in a non-production setting
 # before enabling this, as there's a bunch of ways for this to go wrong and you
 # don't want to get your SMTP server blocklisted.
-# smtp_host = "localhost"
-# smtp_port = 25
-# smtp_use_ssl = False
-# smtp_user = "" # set to None for no auth
-# smtp_password = ""
-# smtp_from_addr = "noreply@crawl.example.org" # The address from which automated
+smtp_host = "localhost"
+smtp_port = 25
+smtp_use_ssl = False
+smtp_user = "" # set to None for no auth
+smtp_password = ""
+smtp_from_addr = "noreply@crawl.example.org" # The address from which automated
                                              # emails will be sent
 
 # crypt() algorithm, e.g. "1" for MD5 or "6" for SHA-512; see crypt(3). If
@@ -400,8 +400,8 @@ lobby_url = None
 
 # login_token_lifetime = 7 # Days
 
-uid = 1001
-gid = 1001
+uid = None  # If this is not None, the server will setuid to that (numeric) id
+gid = None  # after binding its sockets.
 
 umask = None # e.g. 0077
 

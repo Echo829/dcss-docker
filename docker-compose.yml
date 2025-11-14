@@ -6,3 +6,4 @@ services:
       - 8443:8443/tcp
     volumes:
       - /path/to/file/config.py:/crawl/crawl-ref/source/webserver/config.py
+      - /path/to/file/base.yaml:/crawl/crawl-ref/source/webserver/games.d/base.yaml
